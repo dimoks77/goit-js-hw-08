@@ -1,0 +1,26 @@
+html {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    list-style-type: none;
+    gap: 24px;
+}
+  
+img {
+    width: 360px;
+    height: 200px;
+    transition: 0.6s;
+    user-select: none;
+}
+
+img:hover {
+    transform: scale(1.05, 1.05);
+}
+
+
