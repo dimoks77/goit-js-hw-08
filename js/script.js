@@ -80,17 +80,31 @@ function modalWindow(imageUrl) {
 }
 
 let gallery = document.querySelector(".gallery");
+
 let imageElements = images.map(function (image) {
   let newImage = document.createElement("img");
   newImage.src = image.preview;
   newImage.alt = image.description;
   let li = document.createElement("li");
   li.appendChild(newImage);
-  newImage.addEventListener("click", (e) => {
-    modalWindow(image.original);
-  });
   return li;
 });
-
 gallery.append(...imageElements);
+
+gallery.addEventListener("click", (e) => {
+    if (e.target.tagName === "IMG") {
+        for (let i=0; i<images.length; i++) {
+            if (images[i].preview === e.target.src) {
+                modalWindow(images[i].original);
+            }
+        }
+    }
+});
+
+
+
+
+
+
+
 
