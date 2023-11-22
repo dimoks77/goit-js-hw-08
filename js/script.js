@@ -69,7 +69,26 @@ const images = [
 function modalWindow(imageUrl) {
   const instance = basicLightbox.create(`
         <img src="${imageUrl}">
-    `);
+    `,{
+      /*
+       * Prevents the lightbox from closing when clicking its background.
+       */
+      closable: true,
+      /*
+       * One or more space separated classes to be added to the basicLightbox element.
+       */
+      className: '',
+      /*
+       * Function that gets executed before the lightbox will be shown.
+       * Returning false will prevent the lightbox from showing.
+       */
+      onShow: (instance) => {},
+      /*
+       * Function that gets executed before the lightbox closes.
+       * Returning false will prevent the lightbox from closing.
+       */
+      onClose: (instance) => {}
+    });
   instance.show();
   document.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
