@@ -65,37 +65,30 @@ const images = [
   ];
 
 
+  
+let instance;
 
 function modalWindow(imageUrl) {
-  const instance = basicLightbox.create(`
-        <img src="${imageUrl}">
-    `,{
-      /*
-       * Prevents the lightbox from closing when clicking its background.
-       */
-      closable: true,
-      /*
-       * One or more space separated classes to be added to the basicLightbox element.
-       */
-      className: '',
-      /*
-       * Function that gets executed before the lightbox will be shown.
-       * Returning false will prevent the lightbox from showing.
-       */
-      onShow: (instance) => {},
-      /*
-       * Function that gets executed before the lightbox closes.
-       * Returning false will prevent the lightbox from closing.
-       */
-      onClose: (instance) => {}
-    });
-  instance.show();
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
-      // console.log("Esc");
-      instance.close();
+  instance = basicLightbox.create(
+    `
+          <img src="${imageUrl}">
+      `,
+    {
+      onShow: (instance) => {
+        document.addEventListener("keydown", keydownListener);
+      },
+      onClose: (instance) => {
+        document.removeEventListener("keydown", keydownListener);
+      },
     }
-  });
+  );
+  instance.show();
+}
+
+function keydownListener(event) {
+  if (event.key === "Escape" || event.key === "Esc" || event.keyCode === 27) {
+      instance.close();
+  }
 }
 
 let gallery = document.querySelector(".gallery");
@@ -108,18 +101,19 @@ let imageElements = images.map(function (image) {
   li.appendChild(newImage);
   return li;
 });
+
 gallery.append(...imageElements);
 
 gallery.addEventListener("click", (e) => {
-    if (e.target.tagName === "IMG") {
-        for (let i=0; i<images.length; i++) {
-            if (images[i].preview === e.target.src) {
-                modalWindow(images[i].original);
-            }
-        }
+  if (e.target.tagName === "IMG") {
+    for (let i = 0; i < images.length; i++) {
+      if (images[i].preview === e.target.src) {
+        modalWindow(images[i].original);
+      }
     }
+  }
 });
-
+  
 
 
 
